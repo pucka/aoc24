@@ -4,62 +4,43 @@ const lines = readFileSync("./day2.txt", { encoding: "UTF8" })
   .split("\n")
   .filter((line) => line);
 
-const isBadLevel = (distance, direction, prevDirection) =>
-  distance < 1 ||
-  distance > 3 ||
-  (prevDirection !== undefined && direction !== prevDirection);
-
 const parseReport = (numbers) => {
-  let prevDirection, prevLevel;
+  let prevLevel, isAscending;
 
-  const failure = numbers.findIndex((currentLevel, index) => {
-    if (index > 0) {
-      prevLevel = numbers[index - 1];
+  return numbers.every((currentLevel, index) => {
+    if (index === 0) return true;
 
-      const distance = Math.abs(prevLevel - currentLevel);
-      const direction =
-        currentLevel < prevLevel ? -1 : currentLevel > prevLevel ? 1 : 0;
+    prevLevel = numbers[index - 1];
 
-      const badLevel = isBadLevel(distance, direction, prevDirection);
+    const distance = Math.abs(prevLevel - currentLevel);
+    const isCurrentAscending = currentLevel > prevLevel;
 
-      if (badLevel) return true;
+    if (isAscending === undefined) isAscending = isCurrentAscending;
 
-      prevDirection = direction;
-    }
-
-    return false;
+    return isCurrentAscending === isAscending && distance >= 1 && distance <= 3;
   });
-
-  return failure;
 };
 
+// Nr 1
 const safeLines = lines
-  .map((line) => {
-    const numbers = line.split(" ").map((str) => Number(str));
-
-    return parseReport(numbers) === -1;
-  })
+  .map((line) => parseReport(line.split(" ").map((str) => +str)))
   .filter((safe) => safe);
 
+// Nr 2
 const safeLinesWithDamper = lines
   .map((line) => {
-    const numbers = line.split(" ").map((str) => Number(str));
-    const failureIndex = parseReport(numbers);
+    const numbers = line.split(" ").map((str) => +str);
 
-    if (failureIndex > -1) {
-      let count = 0,
-        safe = false,
-        newIndex = Math.max(failureIndex - 2, 0);
+    if (!parseReport(numbers)) {
+      let isSafe = false;
 
-      // Try to remove the bad number and check if the report is safe
-      while (count < 3 && !safe) {
-        safe =
-          parseReport(numbers.filter((_, index) => index !== newIndex)) === -1;
-        newIndex++;
-        count++;
+      for (let i = 0; i < numbers.length; i++) {
+        isSafe = parseReport(numbers.filter((_, index) => index !== i));
+
+        if (isSafe) break;
       }
 
-      return safe;
+      return isSafe;
     }
 
     return true;
