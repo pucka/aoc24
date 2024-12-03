@@ -1,6 +1,6 @@
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 
-const lines = (await readFile("./day2.txt", { encoding: "UTF8" }))
+const lines = readFileSync("./day2.txt", { encoding: "UTF8" })
   .split("\n")
   .filter((line) => line);
 
@@ -10,8 +10,6 @@ const isBadLevel = (distance, direction, prevDirection) =>
   (prevDirection !== undefined && direction !== prevDirection);
 
 const parseReport = (numbers) => {
-  // const copy = [...numbers];
-
   let prevDirection, prevLevel;
 
   const failure = numbers.findIndex((currentLevel, index) => {

@@ -1,6 +1,6 @@
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 
-const lines = (await readFile("./day1.txt", { encoding: "UTF8" }))
+const lines = readFileSync("./day1.txt", { encoding: "UTF8" })
   .split("\n")
   .filter((line) => line);
 
