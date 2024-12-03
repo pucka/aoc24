@@ -24,7 +24,7 @@ const parseReport = (numbers) => {
 // Nr 1
 const safeLines = lines
   .map((line) => parseReport(line.split(" ").map((str) => +str)))
-  .filter((safe) => safe);
+  .filter(Boolean);
 
 // Nr 2
 const safeLinesWithDamper = lines
@@ -45,7 +45,7 @@ const safeLinesWithDamper = lines
 
     return true;
   })
-  .filter((safe) => safe);
+  .filter(Boolean);
 
 console.log("1) Safe lines: ", safeLines.length);
 console.log("2) Safe lines with damper: ", safeLinesWithDamper.length);
