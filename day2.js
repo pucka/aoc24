@@ -1,8 +1,6 @@
 import { readFileSync } from "node:fs";
 
-const lines = readFileSync("./day2.txt", { encoding: "UTF8" })
-  .split("\n")
-  .filter((line) => line);
+const lines = readFileSync("./day2.txt", { encoding: "UTF8" }).split("\n");
 
 const parseReport = (numbers) => {
   let prevLevel, isAscending;

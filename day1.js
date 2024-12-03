@@ -1,8 +1,6 @@
 import { readFileSync } from "node:fs";
 
-const lines = readFileSync("./day1.txt", { encoding: "UTF8" })
-  .split("\n")
-  .filter((line) => line);
+const lines = readFileSync("./day1.txt", { encoding: "UTF8" }).split("\n");
 
 const leftList = lines.map((line) => Number(line.split(/\s+/)[0])).sort();
 const rightList = lines.map((line) => Number(line.split(/\s+/)[1])).sort();
